@@ -134,21 +134,21 @@ async def main():
             'itemName': 'PS5 Console',
             'retailer': 'Best Buy'
         },
-        {
-            "url": 'https://www.bestbuy.com/site/hp-envy-photo-7855-wireless-all-in-one-instant-ink-ready-inkjet-printer-black/5961901.p?skuId=5961901',
-            "itemName": "HP Envy Photo",
-            "retailer": "Best Buy"
-        },
+        # {
+        #     "url": 'https://www.bestbuy.com/site/hp-envy-photo-7855-wireless-all-in-one-instant-ink-ready-inkjet-printer-black/5961901.p?skuId=5961901',
+        #     "itemName": "HP Envy Photo",
+        #     "retailer": "Best Buy"
+        # },
         {
             "url": 'https://www.amazon.com/PlayStation-5-Digital/dp/B09DFHJTF5?ref_=ast_sto_dp',
             "itemName": "PS5 Digital",
             "retailer": "Amazon"
         },
-        { # Test
-            "url": "https://www.amazon.com/Fish-Hub-Fishing-Tshirt-Fisherman/dp/B07JJPB4ZX/ref=rvi_sccl_4/142-0619040-8598520?pd_rd_w=mu9bk&content-id=amzn1.sym.f5690a4d-f2bb-45d9-9d1b-736fee412437&pf_rd_p=f5690a4d-f2bb-45d9-9d1b-736fee412437&pf_rd_r=DC8VRX8JRV7DJEVSFR4P&pd_rd_wg=dLy8J&pd_rd_r=81dc1852-e9a1-4cb5-926c-f26f62125a47&pd_rd_i=B07JJPB4ZX&psc=1",
-            "itemName": "Fish Hub T shirt",
-            "retailer": "Amazon"
-        },
+        # { # Test
+        #     "url": "https://www.amazon.com/Fish-Hub-Fishing-Tshirt-Fisherman/dp/B07JJPB4ZX/ref=rvi_sccl_4/142-0619040-8598520?pd_rd_w=mu9bk&content-id=amzn1.sym.f5690a4d-f2bb-45d9-9d1b-736fee412437&pf_rd_p=f5690a4d-f2bb-45d9-9d1b-736fee412437&pf_rd_r=DC8VRX8JRV7DJEVSFR4P&pd_rd_wg=dLy8J&pd_rd_r=81dc1852-e9a1-4cb5-926c-f26f62125a47&pd_rd_i=B07JJPB4ZX&psc=1",
+        #     "itemName": "Fish Hub T shirt",
+        #     "retailer": "Amazon"
+        # },
         {
             "url": 'https://www.amazon.com/PlayStation-5-Console/dp/B08FC5L3RG?tag=georiot-us-default-20&ascsubtag=tomsguide-us-2379985863985833000-20&geniuslink=true',
             "itemName": "PS5 Console",
