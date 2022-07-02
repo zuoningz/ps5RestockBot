@@ -6,10 +6,24 @@ import time
 import yagmail
 
 
-
+TIME_BETWEEN_EMAILS = 30 * 60  # 30min
 myemail = "zahgz4011@gmail.com"
 myEmailAppPwd  = "hmixjqxskmcfrbxx"
 yag = yagmail.SMTP(myemail, myEmailAppPwd)
+lastSentEmailTimeLookUp = {}
+
+def logSentEmail(retailerProductName, time):
+    lastSentEmailTimeLookUp[retailerProductName] = time
+
+def shouldSendEmail(retailerProductName):
+    if not retailerProductName in lastSentEmailTimeLookUp:  # should log if no email has sent for this product
+        return True
+    else:
+        lastSentTime = lastSentEmailTimeLookUp[retailerProductName]
+        return (time.time() - lastSentTime) >= TIME_BETWEEN_EMAILS
+
+
+
 
 
 def sendEmail(productUrl, productName, retailer):
@@ -20,6 +34,7 @@ def sendEmail(productUrl, productName, retailer):
               %s is available at %s
               ''' % (productName, productUrl, productName, retailer)
     yag.send(to=to, subject=subject, contents=body)
+    logSentEmail(retailer+" "+productName, time.time())
 
 
 async def BestBuyChecker(session, ProductName, ProductUrl):
@@ -31,9 +46,12 @@ async def BestBuyChecker(session, ProductName, ProductUrl):
             print(ProductName + " is not available at Best Buy")
             isAvailable = False
             break
-    if(isAvailable):
-        print(ProductName + " is available at Best Buy")
-        sendEmail(ProductUrl, ProductName, "Best Buy")
+    if(isAvailable ):
+        if shouldSendEmail("Best Buy" + " "+ProductName):
+            print(ProductName + " is available at Best Buy. Sending Email...")
+            sendEmail(ProductUrl, ProductName, "Best Buy")
+        else:
+            print(ProductName + " is available at Best Buy, but email has already sent within 30 min")
 
 
 
@@ -50,8 +68,11 @@ async def AmazonChecker(session, ProductName, ProductUrl):
             isAvailable = False
             break
     if(isAvailable):
-        print(ProductName + " is available at Amazon")
-        sendEmail(ProductUrl, ProductName, "Amazon")
+        if shouldSendEmail("Amazon" + " "+ProductName):
+            print(ProductName + " is available at Amazon, sending Email....")
+            sendEmail(ProductUrl, ProductName, "Amazon")
+        else:
+            print(ProductName + " is available at Amazon, but email has already sent within 30 min")
 
 
 # AmazonChecker()
@@ -134,21 +155,11 @@ async def main():
             'itemName': 'PS5 Console',
             'retailer': 'Best Buy'
         },
-        # {
-        #     "url": 'https://www.bestbuy.com/site/hp-envy-photo-7855-wireless-all-in-one-instant-ink-ready-inkjet-printer-black/5961901.p?skuId=5961901',
-        #     "itemName": "HP Envy Photo",
-        #     "retailer": "Best Buy"
-        # },
         {
             "url": 'https://www.amazon.com/PlayStation-5-Digital/dp/B09DFHJTF5?ref_=ast_sto_dp',
             "itemName": "PS5 Digital",
             "retailer": "Amazon"
         },
-        # { # Test
-        #     "url": "https://www.amazon.com/Fish-Hub-Fishing-Tshirt-Fisherman/dp/B07JJPB4ZX/ref=rvi_sccl_4/142-0619040-8598520?pd_rd_w=mu9bk&content-id=amzn1.sym.f5690a4d-f2bb-45d9-9d1b-736fee412437&pf_rd_p=f5690a4d-f2bb-45d9-9d1b-736fee412437&pf_rd_r=DC8VRX8JRV7DJEVSFR4P&pd_rd_wg=dLy8J&pd_rd_r=81dc1852-e9a1-4cb5-926c-f26f62125a47&pd_rd_i=B07JJPB4ZX&psc=1",
-        #     "itemName": "Fish Hub T shirt",
-        #     "retailer": "Amazon"
-        # },
         {
             "url": 'https://www.amazon.com/PlayStation-5-Console/dp/B08FC5L3RG?tag=georiot-us-default-20&ascsubtag=tomsguide-us-2379985863985833000-20&geniuslink=true',
             "itemName": "PS5 Console",
@@ -181,8 +192,9 @@ async def main():
 
     return await asyncio.gather(*tasks)
 
-# start = time.time()
+
+
+
 while True:
     results = asyncio.run(main())
-# print( "Duration: "+ str(time.time() - start))
 
